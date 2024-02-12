@@ -15,11 +15,9 @@ export function enter(roomName) {
 export function addChat(message) {
     if (chatBox) {
         socket.emit('message', message)
-        console.log('메세지보냄')
     } else {
         chatBox = document.getElementById('chat-box')
         socket.emit('message', message)
-        console.log('메세지보냄')
     }
 }
 

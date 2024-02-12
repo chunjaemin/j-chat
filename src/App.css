@@ -1,8 +1,43 @@
+@font-face {
+    font-family: 'LOTTERIACHAB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIACHAB.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .main-container{
     position: relative;
     width: 100%;
     height: auto;
     min-width: 1000px;
+}
+
+.main-logo-container{
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    z-index: 999;
+}
+
+.logo-p{
+    font-family: 'LOTTERIACHAB';
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.chat-logo-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-logo-p{
+    font-family: 'LOTTERIACHAB';
+    color: rgb(255, 165, 0);
+    font-size: 20px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .chat-main-container{
@@ -187,6 +222,7 @@
 }
 
 .chat-flex-container-left{
+    position: relative;
     width:70%;
     height:100%;
     margin-right: 10px;
@@ -224,4 +260,29 @@
     height:30px;
     background-color: rgb(233, 233, 233);
     border-radius: 15px;
+}
+
+.chat-user-title{
+    text-align: center;
+    width:90%;
+    margin-top: 10px;
+    margin-left: 13px;
+    padding-bottom: 5px;
+    color: rgb(255, 165, 0);
+    font-weight: 700;
+    border-bottom: 1px solid rgb(255, 165, 0);
+}
+
+.chat-user-container{
+    width:90%;
+    margin-left: 13px;
+    border: 1px solid black;
+}
+
+.user-name-li{
+    color:rgb(255, 165, 0);
+}
+
+.user-name-p{
+
 }

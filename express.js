@@ -45,14 +45,19 @@ io.on("connection", (socket) => {
   socket.on('enter_room', (roomName)=>{
     room = roomName
     addUserStatus(room)
-    socket.emit('userData', userId , userObject[roomName])
+    socket.emit('initial_update', userId , userObject[roomName])
     socket.join(room);
+    socket.to(room).emit('room_update', userObject[roomName])
     public_room = publicRoom();
     io.emit('show_room', public_room);
   })
 
   socket.on('leave_room', (roomName)=>{
     socket.leave(roomName)
+ 
+    userObject[roomName][userId] = undefined
+
+    socket.to(room).emit('room_update', userObject[roomName])
     socket.to(room).emit('out_room')
 
     const copy = public_room;
