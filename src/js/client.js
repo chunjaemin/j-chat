@@ -3,12 +3,13 @@ import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
 let socket
 let chatBox
 
-export function start(roomName) {
+export function start() {
     socket = io();
-
-    socket.emit('enter_room', roomName);
-    console.log('룸입장')
     return socket
+}
+
+export function enter(roomName) {
+    socket.emit('enter_room', roomName);
 }
 
 export function addChat(message) {

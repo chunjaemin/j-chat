@@ -1,21 +1,27 @@
 import './App.css'
-import { useEffect } from 'react';
+import {useState, useEffect, useMemo } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom'
 import wave from './js/wave.js'
+import {start, addChat} from './js/client.js'
 
 import ChatRoom from './component/chatRoom.jsx'
 import Chat from './component/chat.jsx'
 
 function App() {
+  let socket = useMemo(()=>{
+    return start();
+  },[])
+
   useEffect(()=>{
-  });
+
+  },[]);
   return (
     <>
       <Routes>
         <Route path="/" element={<MainPage></MainPage>}></Route>
         <Route path="*" element={<MainPage></MainPage>}></Route>
-        <Route path="/chatroom" element={<ChatRoom></ChatRoom>}></Route>
-        <Route path="/chat/:id" element={<Chat></Chat>}></Route>
+        <Route path="/chatroom" element={<ChatRoom socket={socket}></ChatRoom>}></Route>
+        <Route path="/chat/:id" element={<Chat socket={socket}></Chat>}></Route>
       </Routes>
     </>
   )

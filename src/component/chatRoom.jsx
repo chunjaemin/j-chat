@@ -1,13 +1,21 @@
 import '../App.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 import wave from '../js/wave.js'
 
-export default function chatRoom() {
+export default function chatRoom(props) {
   let [visible, changeVisible] = useState(false)
+  let [roomArray, changeRoomArray] = useState([])
+  let socket = useMemo(()=>{return props.socket},[])
+
+  let navigate = useNavigate();
   useEffect(() => {
     wave.draw(5);
-  });
+    socket.emit('show_room')
+    socket.on('show_room', (rooms)=>{
+      changeRoomArray(rooms)
+    })
+  },[]);
   return (
     <>
       <div className='main-container'>
@@ -19,7 +27,15 @@ export default function chatRoom() {
             </div>
           </div>
           <div className='chatRoom-right-container'>
-            
+            {
+              roomArray.map((element)=>{
+                return (
+                  <div className='chatRooms' onClick={()=>{navigate('/chat/' + element)}}>
+                    <p className='chatRooms-p'>방제목: {element}</p>
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
         {

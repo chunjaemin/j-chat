@@ -3,19 +3,20 @@ import { useEffect,useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom'
 import {start, addChat} from '../js/client.js'
 
-export default function chatRoom() {
+export default function chatRoom(props) {
 
     let { id } = useParams();
     let [chat, changeChat] = useState([])
     let [message, changeMessage] = useState('')
-
+    let socket = useMemo(()=>{return props.socket},[])
     useEffect(() => {
-
-        let socket = start(id);
-
+        socket.emit('enter_room', id)
         socket.on('message', (msg) => {
             changeChat((chat) => [...chat, msg])
         })
+        return () => {
+            socket.emit('leave_room', id)
+        }
     }, [])
 
     return (
