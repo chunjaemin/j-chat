@@ -55,7 +55,9 @@ io.on("connection", (socket) => {
   socket.on('leave_room', (roomName)=>{
     socket.leave(roomName)
  
-    userObject[roomName][userId] = undefined
+    if (userObject[roomName]) {
+      userObject[roomName][userId] = undefined
+    }
 
     socket.to(room).emit('room_update', userObject[roomName])
     socket.to(room).emit('out_room')
@@ -68,8 +70,8 @@ io.on("connection", (socket) => {
     }
   })
 
-  socket.on('message', (message) => {
-    socket.to(room).emit('message', message)
+  socket.on('message', (id, message) => {
+    socket.to(room).emit('message', id, message)
   })
 
   function addUserStatus(roomName) {

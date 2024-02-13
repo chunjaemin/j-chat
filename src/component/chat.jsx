@@ -1,7 +1,7 @@
 import '../App.css'
 import { useEffect,useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
-import {start, addChat} from '../js/client.js'
+import {addChat, scrollToBottom} from '../js/client.js'
 
 export default function chatRoom(props) {
 
@@ -17,8 +17,12 @@ export default function chatRoom(props) {
 
     useEffect(() => {
         socket.emit('enter_room', id)
-        socket.on('message', (msg) => {
-            changeChat((chat) => [...chat, msg])
+        socket.on('message', (id, msg) => {
+            let obj = {userId: id, message: msg}
+            console.log(id)
+            console.log(msg)
+            console.log(obj)
+            changeChat((chat) => [...chat, obj])
         })
 
         socket.on('initial_update',(id, data)=>{
@@ -42,6 +46,10 @@ export default function chatRoom(props) {
         }
     }, [])
 
+    useEffect(()=>{
+        scrollToBottom();
+    },[chat])
+
     return (
         <>
             <div className='chat-main-container'>
@@ -49,11 +57,31 @@ export default function chatRoom(props) {
                     <div className='chat-flex-container'>
                         <div id='chat-box' className='chat-flex-container-left'>
                             <div className='chat-logo-container'><p className='chat-logo-p' onClick={()=>{navigate('/')}}>J-Chat</p></div>
-                            {
-                                chat.map((element) => {
-                                    return <li>{element}</li>
-                                })
-                            }
+                            <div className='chat-main-box'>
+                                {
+                                    chat.map((obj) => {
+                                        return (
+                                            <div>
+                                            {
+                                                obj && obj.userId == userId 
+                                                ? <div className='chat-box-me'>
+                                                    <div className='chat-box-me-small'>
+                                                        <p className='chat-box-me-name' style={{color: roomData[obj.userId].color}}>나</p>
+                                                        <p className='chat-box-me-p'>{obj.message}</p>
+                                                    </div>
+                                                  </div> 
+                                                : <div className='chat-box-opponent'>
+                                                    <div className='chat-box-opponent-small'>
+                                                        <p className='chat-box-opponent-name' style={{color: roomData[obj.userId].color}}>{roomData[obj.userId].name}</p>
+                                                        <p className='chat-box-opponent-p'>{obj.message}</p>
+                                                    </div>
+                                                  </div> 
+                                            }
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                         <div className='chat-flex-container-right'>
                             <div className='chat-user-title'>참가자 리스트</div>
@@ -74,8 +102,9 @@ export default function chatRoom(props) {
                             onKeyDown={(e) => {
                                 if (e.code === 'Enter') {
                                     if (e.nativeEvent.isComposing == false) {
-                                        addChat(message);
-                                        changeChat((chat) => [...chat, message])
+                                        addChat(userId, message);
+                                        let obj = {userId: userId, message: message}
+                                        changeChat((chat) => [...chat, obj])
                                         changeMessage('')
                                     }
                                 }

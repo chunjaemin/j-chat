@@ -12,16 +12,22 @@ export function enter(roomName) {
     socket.emit('enter_room', roomName);
 }
 
-export function addChat(message) {
+export function addChat(userId, message) {
     if (chatBox) {
-        socket.emit('message', message)
+        socket.emit('message', userId, message)
     } else {
         chatBox = document.getElementById('chat-box')
-        socket.emit('message', message)
+        socket.emit('message', userId, message)
     }
+}
+
+export function scrollToBottom() {
+    let scrollableDiv = document.querySelector('.chat-main-box');
+    scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
 }
 
 export default {
     start,
     addChat,
+    scrollToBottom,
 }
