@@ -52,11 +52,18 @@ function ChatModal (props) {
   return(
     <div className='chat-modal-background' onClick={()=>{props.changeVisible(false)}}>
       <div className='chat-modal-container' onClick={(e)=>{e.stopPropagation()}}>
-        <p>방이름{':'+roomName}</p>
-        <input placeholder='방이름' onInput={(e)=>{changeRoomName(e.target.value)}}></input>
-        <p>설정</p>
-        <p>아직은 아무것도 없죠?</p>
-        <div className='socket-create-room' onClick={()=>{navigater('/chat/' + roomName)}}><p className='btn-p'>방만들기</p></div>
+        <p className='roomName-title'>방이름{':'+roomName}</p>
+        <input placeholder='방이름' onInput={(e)=>{changeRoomName(e.target.value)}} className='roomName-input'></input>
+        <p className='roomName-option'>설정</p>
+        <div className='roomName-options'><p>옵션 같은건 없어요~</p></div>
+        <div className='socket-create-room' onClick={() => {
+          if (roomName) {
+            navigater('/chat/' + roomName)
+          } else {
+            alert('방이름을 입력해주세요')
+          }
+        }
+        }><p className='btn-p'>방만들기</p></div>
       </div>
     </div>
   )

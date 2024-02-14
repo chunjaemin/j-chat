@@ -150,7 +150,7 @@
 .chatRooms{
     width: 96%;
     height: 100px;
-    background-color: white;
+    background: rgb(255,255,255);
     box-shadow: 1px 2px 7px rgb(99, 99, 99);
     border-radius: 12px;
     margin: 2%;
@@ -163,6 +163,7 @@
     width: 92%;
     margin-left: 20px;
     font-size: 18px;
+    color: rgb(255, 165, 0);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap;
@@ -172,7 +173,7 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 70%;
+    top: 78%;
     left:0;
     font-size: 30px;
     font-weight: 700;
@@ -194,7 +195,8 @@
     position: relative;
     width:30%;
     height:80%;
-    border: 1px solid black;
+    border: 1px solid rgb(255, 165, 0);
+    border-radius: 5px;
     background-color: white;
 }
 
@@ -202,10 +204,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width:100px;
+    width:91%;
     height:50px;
     border-radius: 5px;
-    border: 1px solid black;
+    color: rgb(255, 165, 0);
+    border: 1px solid rgb(255, 165, 0);
+    margin-left: 10px;
     cursor: pointer;
 }
 
@@ -258,7 +262,8 @@
 .chat-input{
     width:95%;
     height:30px;
-    background-color: rgb(233, 233, 233);
+    background-color: rgb(249, 235, 215);
+    border: 1px solid rgb(255, 165, 0);
     border-radius: 15px;
 }
 
@@ -335,6 +340,7 @@
     max-width: 200px;
     width: auto;
     height:auto;
+    min-height:20px;
     margin-right: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
@@ -354,6 +360,7 @@
     max-width: 200px;
     width: auto;
     height:auto;
+    min-height:20px;
     margin-right: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
@@ -364,4 +371,39 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.roomName-title{
+    color: rgb(255, 165, 0);
+    margin-left: 10px;
+}
+
+.roomName-input{
+    margin-left: 10px;
+    width:90%;
+    height:25px;
+    background-color: rgb(255, 238, 212);
+    border: 1px solid rgb(255, 165, 0);
+    border-radius: 3px;
+}
+
+input::placeholder {
+    color: rgb(255, 165, 0);
+}
+
+.roomName-option{
+    width:92%;
+    margin-left: 10px;
+    color: rgb(255, 165, 0);
+    border-bottom: 1px solid rgb(255, 165, 0);
+}
+
+.roomName-options{
+    width:90%;
+    height: 50%;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 165, 0);
 }

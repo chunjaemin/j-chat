@@ -19,9 +19,6 @@ export default function chatRoom(props) {
         socket.emit('enter_room', id)
         socket.on('message', (id, msg) => {
             let obj = {userId: id, message: msg}
-            console.log(id)
-            console.log(msg)
-            console.log(obj)
             changeChat((chat) => [...chat, obj])
         })
 
@@ -101,7 +98,7 @@ export default function chatRoom(props) {
                             onInput={(e) => { changeMessage(e.target.value) }}
                             onKeyDown={(e) => {
                                 if (e.code === 'Enter') {
-                                    if (e.nativeEvent.isComposing == false) {
+                                    if (e.nativeEvent.isComposing == false && message !='') {
                                         addChat(userId, message);
                                         let obj = {userId: userId, message: message}
                                         changeChat((chat) => [...chat, obj])
