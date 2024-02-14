@@ -48,19 +48,20 @@ io.on("connection", (socket) => {
     socket.emit('initial_update', userId , userObject[roomName])
     socket.join(room);
     socket.to(room).emit('room_update', userObject[roomName])
+    socket.to(room).emit('message', '서버 메세지', 'rgb(255, 165, 0)', userObject[room][userId].name+'님이 채팅방에 입장하셨습니다.')
     public_room = publicRoom();
     io.emit('show_room', public_room);
   })
 
   socket.on('leave_room', (roomName)=>{
+    socket.to(room).emit('message', '서버 메세지', 'rgb(255, 165, 0)', userObject[room][userId].name+'님이 채팅방에서 나가셨습니다.')
     socket.leave(roomName)
- 
+    
     if (userObject[roomName]) {
       userObject[roomName][userId] = undefined
     }
 
     socket.to(room).emit('room_update', userObject[roomName])
-    socket.to(room).emit('out_room')
 
     const copy = public_room;
     public_room = publicRoom();
@@ -71,7 +72,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on('message', (id, message) => {
-    socket.to(room).emit('message', id, message)
+    socket.to(room).emit('message', userObject[room][id].name, userObject[room][id].color, message)
   })
 
   function addUserStatus(roomName) {

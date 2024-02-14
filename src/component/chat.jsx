@@ -17,8 +17,8 @@ export default function chatRoom(props) {
 
     useEffect(() => {
         socket.emit('enter_room', id)
-        socket.on('message', (id, msg) => {
-            let obj = {userId: id, message: msg}
+        socket.on('message', (name, color, msg) => {
+            let obj = {userName: name, userColor: color, message: msg}
             changeChat((chat) => [...chat, obj])
         })
 
@@ -60,16 +60,16 @@ export default function chatRoom(props) {
                                         return (
                                             <div>
                                             {
-                                                obj && obj.userId == userId 
+                                                obj && obj.userName == roomData[userId].name 
                                                 ? <div className='chat-box-me'>
                                                     <div className='chat-box-me-small'>
-                                                        <p className='chat-box-me-name' style={{color: roomData[obj.userId].color}}>나</p>
+                                                        <p className='chat-box-me-name' style={{color: obj.userColor}}>나</p>
                                                         <p className='chat-box-me-p'>{obj.message}</p>
                                                     </div>
                                                   </div> 
                                                 : <div className='chat-box-opponent'>
                                                     <div className='chat-box-opponent-small'>
-                                                        <p className='chat-box-opponent-name' style={{color: roomData[obj.userId].color}}>{roomData[obj.userId].name}</p>
+                                                        <p className='chat-box-opponent-name' style={{color: obj.userColor}}>{obj.userName}</p>
                                                         <p className='chat-box-opponent-p'>{obj.message}</p>
                                                     </div>
                                                   </div> 
@@ -100,7 +100,7 @@ export default function chatRoom(props) {
                                 if (e.code === 'Enter') {
                                     if (e.nativeEvent.isComposing == false && message !='') {
                                         addChat(userId, message);
-                                        let obj = {userId: userId, message: message}
+                                        let obj = {userName: roomData[userId].name,userColor: roomData[userId].color, message: message}
                                         changeChat((chat) => [...chat, obj])
                                         changeMessage('')
                                     }
