@@ -470,13 +470,13 @@ input::placeholder {
     aspect-ratio: 1/1;
     background-image: url(./assets/sound.webp);
     background-size: 200% 120%;
-    background-position: 50px -3px;
+    background-position: 51px -3px;
 }
 
 .mute-btn{
     position: absolute;
     top:30px;
-    left:300px;
+    left:200px;
     border: 1px solid black;
     width:50px;
     aspect-ratio: 1/1;
