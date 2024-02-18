@@ -1,7 +1,7 @@
 import '../App.css'
 import { useEffect,useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
-import {addChat, scrollToBottom} from '../js/client.js'
+import {addChat, scrollToBottom} from '../js/chatClient.js'
 
 export default function chatRoom(props) {
 
@@ -17,6 +17,7 @@ export default function chatRoom(props) {
 
     useEffect(() => {
         socket.emit('enter_room', id)
+        
         socket.on('message', (name, color, msg) => {
             let obj = {userName: name, userColor: color, message: msg}
             changeChat((chat) => [...chat, obj])

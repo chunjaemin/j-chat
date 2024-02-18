@@ -85,6 +85,34 @@ io.on("connection", (socket) => {
       color: colorArray[userId],
     }
   }
+
+  //web-RTC 연결 코드
+  socket.on('enter-rtc-room', (roomName)=>{
+    room = roomName
+    socket.join(room);
+    socket.to(room).emit('socket-id', socket.id);
+  })
+
+  socket.on('leave-rtc', (roomName)=>{
+    socket.to(roomName).emit('leave-rtc', socket.id)
+    socket.leave(roomName)
+  })
+
+  socket.on('socket-id', (opponent_id)=>{
+    socket.to(opponent_id).emit('get-userId', socket.id);
+  })
+
+  socket.on('offer', (offer, opponent_id, my_id) => {
+    socket.to(opponent_id).emit('offer', offer, my_id);
+  })
+
+  socket.on('answer', (answer, id) => {
+    socket.to(id).emit('answer', answer, socket.id)
+  })
+
+  socket.on('ice', (icecandidate, id)=>{
+    socket.to(id).emit('ice', icecandidate, socket.id)
+  })
 });
 
 function publicRoom () {
@@ -92,7 +120,9 @@ function publicRoom () {
   io.sockets.adapter.rooms.forEach((value, key)=>{
     const setArray = [...value]
     if (setArray[0] != key) {
-      public_room.push(key)
+      if (!key.includes("WEBRTC")) {
+        public_room.push(key)
+      }
     }
   })
   return public_room
@@ -105,3 +135,6 @@ function setUser(roomName) {
     }
   }
 }
+
+
+
