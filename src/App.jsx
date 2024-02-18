@@ -39,7 +39,7 @@ function MainPage() {
   return (
     <>
       <div className='main-container'>
-        <div className='main-logo-container'><p className='logo-p' onClick={()=>{navigate('/')}}>J-Chat</p></div>
+        <div className='main-logo-container'><p className='logo-p' onClick={()=>{navigate('/')}}>J-Chat & Zoom</p></div>
         <canvas id="canvas" className='background-canvas' ></canvas>
         <div className='main-flex-container'>
           <div className='flex-card1' onClick={()=>{navigate('chatroom')}}>

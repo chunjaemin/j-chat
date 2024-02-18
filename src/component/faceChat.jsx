@@ -9,7 +9,11 @@ export default function FaceChat (props) {
     let rtcObject = useRef({})
     let htmlObjectId = useRef({})
     let htmlCount = useRef(0)
-
+    let [sound, setSound] = useState(true)
+    let [monitor, setMonitor] = useState(true)
+    let redBtn = 'red-btn'
+    let soundBtn = 'sound-btn'
+    
     let navigate = useNavigate();
 
     useEffect(async ()=>{ 
@@ -128,12 +132,33 @@ export default function FaceChat (props) {
         }
     },[])
 
+    function setVideoSize(size) {
+        const video = document.querySelectorAll('.video-self');
+
+        video.forEach(element => {
+            element.style.width = size + 'px';
+        });
+    }
+
     return(
         <>
+            <div className='rtc-logo-container'><p onClick={()=>{navigate('/')}}>J-Zoom</p></div>
+            <div className={soundBtn} onClick={()=>{
+                myStream.current.getAudioTracks().forEach((track)=>{track.enabled = !track.enabled})
+            }}></div>
+            <div className='mute-btn' onClick={()=>{
+                myStream.current.getVideoTracks().forEach((track)=>{track.enabled = !track.enabled})
+            }}></div>
+            <div className='rtc-flex-option-container'>
+                <div className='rtc-option' onClick={()=>{setVideoSize(300)}}>X1</div>
+                <div className='rtc-option' onClick={()=>{setVideoSize(450)}}>X1.5</div>
+                <div className='rtc-option' onClick={()=>{setVideoSize(600)}}>X2</div>
+                <div className='rtc-option' onClick={()=>{setVideoSize(750)}}>X2.5</div>
+            </div>
             <div className='video-container'>
                 <video autoPlay ref={videoSelf} className='video-self'></video>
             </div>
-            <div onClick={()=>{navigate(-1)}}>뒤로가기 버튼</div>
+            <div onClick={()=>{console.log(sound)}}>클릭</div>
         </>
     )
 } 
