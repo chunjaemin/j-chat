@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
   let room 
   let userId 
   let public_room = []
+  let public_rtc_room = []
 
   socket.on('show_room', ()=>{
     public_room = publicRoom();
@@ -63,10 +64,10 @@ io.on("connection", (socket) => {
 
     socket.to(room).emit('room_update', userObject[roomName])
 
-    const copy = public_room;
+    const prev = public_room;
     public_room = publicRoom();
 
-    if (copy.length != public_room.length) {
+    if (prev.length != public_room.length) {
       io.emit('show_room', public_room)
     }
   })
@@ -87,15 +88,29 @@ io.on("connection", (socket) => {
   }
 
   //web-RTC 연결 코드
+  socket.on('rtc_show_room', ()=>{
+    public_rtc_room = publicRtcRoom();
+    socket.emit('rtc_show_room', public_rtc_room)
+  })
+
   socket.on('enter-rtc-room', (roomName)=>{
     room = roomName
     socket.join(room);
     socket.to(room).emit('socket-id', socket.id);
+    public_rtc_room = publicRtcRoom()
+    io.emit('rtc_show_room', public_rtc_room);
   })
 
   socket.on('leave-rtc', (roomName)=>{
     socket.to(roomName).emit('leave-rtc', socket.id)
     socket.leave(roomName)
+
+    const prev = public_rtc_room;
+    public_rtc_room = publicRtcRoom();
+
+    if (prev.length != public_room.length) {
+      io.emit('rtc_show_room', public_rtc_room)
+    }
   })
 
   socket.on('socket-id', (opponent_id)=>{
@@ -126,6 +141,21 @@ function publicRoom () {
     }
   })
   return public_room
+}
+
+function publicRtcRoom () {
+  const public_rtc_room = [];
+  io.sockets.adapter.rooms.forEach((value, key)=>{
+    const setArray = [...value]
+    if (setArray[0] != key) {
+      if (key.includes("WEBRTC")) {
+        //WEBRTC이름을 제거하고 룸이름을 넣도록
+        const roomName = key.replace("WEBRTC", "");
+        public_rtc_room.push(roomName)
+      }
+    }
+  })
+  return public_rtc_room
 }
 
 function setUser(roomName) {

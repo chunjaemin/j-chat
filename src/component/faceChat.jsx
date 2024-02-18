@@ -10,6 +10,8 @@ export default function FaceChat (props) {
     let htmlObjectId = useRef({})
     let htmlCount = useRef(0)
 
+    let navigate = useNavigate();
+
     useEffect(async ()=>{ 
 
         if (!myStream.current) {
@@ -131,6 +133,7 @@ export default function FaceChat (props) {
             <div className='video-container'>
                 <video autoPlay ref={videoSelf} className='video-self'></video>
             </div>
+            <div onClick={()=>{navigate(-1)}}>뒤로가기 버튼</div>
         </>
     )
 } 

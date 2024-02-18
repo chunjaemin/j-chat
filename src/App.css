@@ -137,6 +137,19 @@
     cursor: pointer;
 }
 
+.rtcRoom-card{
+    position: relative;
+    width:80%;
+    height: 85%;
+    box-shadow: 2px 2px 7px rgb(99, 99, 99);
+    background-color: white;
+    background-image: url('./assets/rtcimage.png');
+    background-size: cover;
+    background-position: -80px -50px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
 .chatRoom-right-container{
     position: relative;
     width:60%;
