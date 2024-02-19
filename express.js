@@ -38,6 +38,7 @@ io.on("connection", (socket) => {
   let public_room = []
   let public_rtc_room = []
 
+  //웹소켓 채팅코드
   socket.on('show_room', ()=>{
     public_room = publicRoom();
     socket.emit('show_room', public_room)
@@ -87,7 +88,28 @@ io.on("connection", (socket) => {
     }
   }
 
-  //web-RTC 연결 코드
+  function publicRoom () {
+    const public_room = [];
+    io.sockets.adapter.rooms.forEach((value, key)=>{
+      const setArray = [...value]
+      if (setArray[0] != key) {
+        if (!key.includes("WEBRTC")) {
+          public_room.push(key)
+        }
+      }
+    })
+    return public_room
+  }
+
+  function setUser(roomName) {
+    for (let i=0; i<10; i++) {
+      if (!userObject[roomName][i]) {
+        return i
+      }
+    }
+  }
+
+  //web-RTC 연결 코드 
   socket.on('rtc_show_room', ()=>{
     public_rtc_room = publicRtcRoom();
     socket.emit('rtc_show_room', public_rtc_room)
@@ -130,18 +152,6 @@ io.on("connection", (socket) => {
   })
 });
 
-function publicRoom () {
-  const public_room = [];
-  io.sockets.adapter.rooms.forEach((value, key)=>{
-    const setArray = [...value]
-    if (setArray[0] != key) {
-      if (!key.includes("WEBRTC")) {
-        public_room.push(key)
-      }
-    }
-  })
-  return public_room
-}
 
 function publicRtcRoom () {
   const public_rtc_room = [];
@@ -158,13 +168,6 @@ function publicRtcRoom () {
   return public_rtc_room
 }
 
-function setUser(roomName) {
-  for (let i=0; i<10; i++) {
-    if (!userObject[roomName][i]) {
-      return i
-    }
-  }
-}
 
 
 
