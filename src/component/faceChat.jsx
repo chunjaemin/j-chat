@@ -101,6 +101,7 @@ export default function FaceChat (props) {
                         videoElement.id = htmlObjectId.current[id];
                         videoElement.className = 'video-self';
                         videoElement.autoplay = true;
+                        videoElement.playsInline = true;
                         videoElement.srcObject = e.streams[0];
 
                         var container = document.querySelector('.video-container')
@@ -163,7 +164,7 @@ export default function FaceChat (props) {
                 <div className='rtc-option' onClick={()=>{setVideoSize(750)}}>X2.5</div>
             </div>
             <div className='video-container'>
-                <video autoPlay ref={videoSelf} className='video-self'></video>
+                <video playsInline autoPlay ref={videoSelf} className='video-self'></video>
             </div>
         </>
     )
