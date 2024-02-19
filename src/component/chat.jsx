@@ -34,6 +34,7 @@ export default function chatRoom(props) {
 
         function handleUnLoad() {
             socket.emit('leave_room', id)
+            socket.removeAllListeners();
         }
 
         window.addEventListener("beforeunload", handleUnLoad);
@@ -41,6 +42,7 @@ export default function chatRoom(props) {
         return () => {
             window.removeEventListener("beforeunload", handleUnLoad);
             socket.emit('leave_room', id)
+            socket.removeAllListeners();
         }
     }, [])
 

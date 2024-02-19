@@ -20,6 +20,7 @@ export default function FaceChat (props) {
                 await getMedia();
             }
 
+
             socket.on('socket-id', async (id) => {
                 socket.emit('socket-id', id)
             })
@@ -59,8 +60,8 @@ export default function FaceChat (props) {
                 const videoTag = document.getElementById(htmlObjectId.current[id]);
                 videoTag.remove();
                 rtcObject.current[id].close();
+                rtcObject.current[id] = null
             })
-
 
             async function getMedia() {
                 try {
@@ -112,7 +113,6 @@ export default function FaceChat (props) {
                 });
             }
 
-
             async function createOffer(id) {
                 const offer = await rtcObject.current[id].createOffer()
                 rtcObject.current[id].setLocalDescription(offer);
@@ -125,6 +125,7 @@ export default function FaceChat (props) {
         
         function handleUnLoad() {
             socket.emit('leave-rtc', 'WEBRTC' + id)
+            socket.removeAllListeners();
         }
 
         start();
@@ -132,6 +133,7 @@ export default function FaceChat (props) {
         return () => {
             window.removeEventListener("beforeunload", handleUnLoad);
             socket.emit('leave-rtc', 'WEBRTC'+id)
+            socket.removeAllListeners();
         }
     },[])
 
@@ -150,7 +152,8 @@ export default function FaceChat (props) {
                 setSound((sound)=>{return !sound})
                 myStream.current.getAudioTracks().forEach((track)=>{track.enabled = !track.enabled})
             }}></div>
-            <div className='red-btn' onClick={()=>{
+            <div className={monitor ? 'monitor-btn' : 'mute-monitor-btn'} onClick={()=>{
+                setMonitor((monitor)=>{return !monitor})
                 myStream.current.getVideoTracks().forEach((track)=>{track.enabled = !track.enabled})
             }}></div>
             <div className='rtc-flex-option-container'>
