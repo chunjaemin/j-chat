@@ -26,9 +26,9 @@ function draw(dot) {
     for (let i=0; i<dot; i++) {
         const defX = increase*i/2
         if (i==0 || i== dot-1) {
-            pointArray[i] = new Point(defX,canvas.height/4 ,0.05,1.2 +0.3*i,3)
+            pointArray[i] = new Point(defX,canvas.height/4 ,0.01,1.2 +0.3*i,3)
         } else {
-            pointArray[i] = new Point(defX,canvas.height/4 + 25*i ,0.02,0.5 + 0.9*i,1.5)
+            pointArray[i] = new Point(defX,canvas.height/4 + 25*i ,0.008,0.5 + 1*i,0.7)
         }
     }
     ctx.fillStyle = "rgb(255, 165, 0)"

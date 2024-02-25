@@ -10,7 +10,7 @@ export default function rtcRoom(props) {
 
   let navigate = useNavigate();
   useEffect(() => {
-    wave.draw(5);
+    wave.draw(12);
     socket.emit('rtc_show_room')
     socket.on('rtc_show_room', (rooms)=>{
       changeRoomArray(rooms)

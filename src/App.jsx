@@ -33,7 +33,7 @@ function App() {
 
 function MainPage() {
   useEffect(() => {
-    wave.draw(5);
+    wave.draw(12);
   });
   let navigate = useNavigate();
   return (

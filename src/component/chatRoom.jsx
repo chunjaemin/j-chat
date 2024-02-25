@@ -10,7 +10,7 @@ export default function chatRoom(props) {
 
   let navigate = useNavigate();
   useEffect(() => {
-    wave.draw(5);
+    wave.draw(12);
     socket.emit('show_room')
     socket.on('show_room', (rooms)=>{
       changeRoomArray(rooms)
