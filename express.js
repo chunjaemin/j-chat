@@ -48,27 +48,27 @@ io.on("connection", (socket) => {
     room = roomName
     addUserStatus(room)
     socket.emit('initial_update', userId , userObject[roomName])
-    socket.join(room);
-    socket.to(room).emit('room_update', userObject[roomName])
-    socket.to(room).emit('message', '서버 메세지', 'rgb(255, 165, 0)', userObject[room][userId].name+'님이 채팅방에 입장하셨습니다.')
-    public_room = publicRoom();
-    io.emit('show_room', public_room);
+    if (userId != -1) {
+      socket.join(room);
+      socket.to(room).emit('room_update', userObject[roomName])
+      socket.to(room).emit('message', '서버 메세지', 'rgb(255, 165, 0)', userObject[room][userId].name+'님이 채팅방에 입장하셨습니다.')
+      public_room = publicRoom();
+      io.emit('show_room', public_room);
+    }
   })
 
-  socket.on('leave_room', (roomName)=>{
-    socket.to(room).emit('message', '서버 메세지', 'rgb(255, 165, 0)', userObject[room][userId].name+'님이 채팅방에서 나가셨습니다.')
-    socket.leave(roomName)
-    
-    if (userObject[roomName]) {
-      userObject[roomName][userId] = undefined
-    }
+  socket.on('leave_room', (roomName) => {
+    if (userId != -1) {
+      socket.to(room).emit('message', '서버 메세지', 'rgb(255, 165, 0)', userObject[room][userId].name + '님이 채팅방에서 나가셨습니다.')
+      socket.leave(roomName)
 
-    socket.to(room).emit('room_update', userObject[roomName])
+      if (userObject[roomName]) {
+        userObject[roomName][userId] = undefined
+      }
 
-    const prev = public_room;
-    public_room = publicRoom();
+      socket.to(room).emit('room_update', userObject[roomName])
 
-    if (prev.length != public_room.length) {
+      public_room = publicRoom();
       io.emit('show_room', public_room)
     }
   })
@@ -78,35 +78,49 @@ io.on("connection", (socket) => {
   })
 
   function addUserStatus(roomName) {
+    //처음 방을 만든 사람이라면, 방이 없기 때문에 방을 만들기
     if (!userObject.hasOwnProperty(roomName)) {
+      //최대 10명까지 수용 가능한 방을 만듬 
       userObject[roomName] = new Array(10);
     }
-    userId = setUser(roomName);
-    userObject[roomName][userId] = {
-      name: userName[userId],
-      color: colorArray[userId],
+
+    //유저 id 발급
+    userId = setUserId(roomName);
+
+    //유저 id에 맞는 이름과 색상을 방관리 변수에 넣어 둠 userId가 정상적으로 존재할 경우에
+    if (userId != -1) {
+      userObject[roomName][userId] = {
+        name: userName[userId],
+        color: colorArray[userId],
+      }
     }
   }
 
+  //생성 된 모든 방 연결 중, private를 제외시켜, public방들을 가져오는 함수. 참고로 private는 value[0]과 값이 같음 
   function publicRoom () {
     const public_room = [];
     io.sockets.adapter.rooms.forEach((value, key)=>{
       const setArray = [...value]
-      if (setArray[0] != key) {
-        if (!key.includes("WEBRTC")) {
-          public_room.push(key)
+      //console.log("key:" + key + ", value:" + setArray) value와 key의 구조를 알고 싶다면 쓰세용
+      if (setArray[0] != key && !key.includes("WEBRTC")) {
+        const obj = {
+          roomName : key,
+          count : setArray.length
         }
+        public_room.push(obj);
       }
     })
     return public_room
   }
 
-  function setUser(roomName) {
+  //유저의 id발급 하는 함수, 1~10중 1부터 탐색해서 안쓰고 있는 id를 찾아서 유저에게 줌
+  function setUserId(roomName) {
     for (let i=0; i<10; i++) {
       if (!userObject[roomName][i]) {
         return i
       }
     }
+    return -1; //발급 받을 수 있는 인덱스가 없을 경우 -1 리턴 
   }
 
   //web-RTC 연결 코드 

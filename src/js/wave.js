@@ -1,3 +1,4 @@
+//wave를 만들어주는 코드임, canvas라는 id를 가진 canvas 태그 안에 wave를 넣어줌
 class Point {
     constructor(x,y,speed,index,max) {
         this.x = x;
@@ -13,7 +14,9 @@ class Point {
     }
 }
 
+//물결의 꼭지점을 매개변수로 받음(많을 수록 꼭지점이 많아짐)
 function draw(dot) {
+    //id가 canvas인 것을 찝는 코드, canvas태그의 id를 변경하고 싶다면 하단의 getElementById를 바꿀 것
     const canvas = document.getElementById('canvas')
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight

@@ -158,6 +158,7 @@
 }
 
 .chatRooms{
+    position: relative;
     width: 96%;
     height: 100px;
     background: rgb(255,255,255);
@@ -177,6 +178,13 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap;
+}
+
+.chatRooms-member{
+    position: absolute;
+    right: 2%;
+    bottom: 0px;
+    color: rgb(255, 165, 0);
 }
 
 .chatRoom-p{

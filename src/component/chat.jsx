@@ -24,8 +24,13 @@ export default function chatRoom(props) {
         })
 
         socket.on('initial_update',(id, data)=>{
-            setUserId(id)
-            setRoomData(()=>data)
+            if (id == -1 ) {
+                alert("방인원이 꽉 찼습니다. 입장하실 수 없습니다.");
+                navigate('/chatroom');
+            } else {
+                setUserId(id)
+                setRoomData(()=>data)
+            }
         })
 
         socket.on('room_update',(data)=>{
@@ -116,4 +121,3 @@ export default function chatRoom(props) {
         </>
     )
 }
-

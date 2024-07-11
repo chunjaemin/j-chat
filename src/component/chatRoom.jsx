@@ -30,8 +30,9 @@ export default function chatRoom(props) {
             {
               roomArray.map((element)=>{
                 return (
-                  <div className='chatRooms' onClick={()=>{navigate('/chat/' + element)}}>
-                    <p className='chatRooms-p'>방제목: {element}</p>
+                  <div className='chatRooms' onClick={()=>{navigate('/chat/' + element.roomName)}}>
+                    <p className='chatRooms-p'>방제목: {element.roomName}</p>
+                    <p className='chatRooms-member'>{element.count}/10</p>
                   </div>
                 )
               })
