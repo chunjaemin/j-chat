@@ -1,12 +1,12 @@
 ### https://port-0-j-chat-azyqdr152alrrlmezx.sel5.cloudtype.app/
 
-#제작기간: 24.02.08 ~ 24.02.19
+# 제작기간: 24.02.08 ~ 24.02.19
 
-#사용된 기술 
+# 사용된 기술 
 - react + vite
 - express + WebSocket + WebRtc(STUN서버 이용, TURN서버x) 
 
-#기능
+# 기능
 
 익명 채팅과 익명 화상 통화가 가능합니다. 
 
