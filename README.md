@@ -1,6 +1,6 @@
-# https://port-0-j-chat-azyqdr152alrrlmezx.sel5.cloudtype.app/
+### https://port-0-j-chat-azyqdr152alrrlmezx.sel5.cloudtype.app/
 
-24.02.08 ~ 24.02.19 대략 10일간 만든 웹사이트입니다.
+제작기간 - 24.02.08 ~ 24.02.19
 
 react + node.js(express) + vite를 사용하여 만들었습니다.  
 
